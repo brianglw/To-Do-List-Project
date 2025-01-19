@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todolist</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sticky">
+        <footer>Webpage designed by Windslicer56</footer>
+        <label for="theme">Choose your theme: </label>
+        <select id="theme">
+            <option value="default">Default</option>
+            <option value="bw">Black & White</option>
+        </select>
+    </div>
+    <div class="container">
+        <div>
+            <span class="header">to do list</span>
+        </div>
+
+        <label for="add-task"></label>
+        <input type="button" id="add-task" value="Add Task">
+            
+        <div>
+        <label for="task-sorting">Sort By: </label>
+        <select id="task-sorting">
+            <option value="sort-abc" id="sort-abc">Alphabetical (A-Z)</option>
+            <option value="sort-newest" id="sort-newest">Newest</option>
+            <option value="sort-oldest" id="sort-oldest">Oldest</option>
+            <option value="sort-reverse-abc" id="sort-reverse-abc">Reverse Alphabetical (Z-A)</option>
+            <option value="sort-completed" id="sort-completed">Completed</option>
+            <option value="sort-deleted" id="sort-deleted">Deleted</option>
+        </select> 
+    <hr>
+        <div id="tasks"></div>
+        </div>
+    <dialog id="create-new-task">
+        <div>
+            <input type="button" id="create-task" value="Create New Task">
+            <input type="button" id="discard-task" value="Discard as Draft">
+            <input type="button" id="close-task" value="Close">
+        </div>
+        <label for="task-name">Task: </label>
+        <input type="text" id="task-name" placeholder="Run 10k">
+        <label for="task-date"></label>
+        <input type="date" id="task-date">
+        <label for="task-desc">Task Description: </label>
+        <textarea id="task-desc" placeholder='Run an average pace of 8:00 min/mi, high-five friends on the way to the finish line'></textarea> 
+    </dialog>
+    <dialog id="edit-task">
+        <label for="edit-task-name">Task: </label>
+            <input type="text" id="edit-task-name">
+            <label for="edit-task-date"></label>
+            <input type="date" id="edit-task-date">
+            <label for="edit-task-desc">Task Description: </label>
+            <textarea id="edit-task-desc"></textarea>
+            <div>
+                <input type="button" id="edit-task-done" value="Done">
+                <input type="button" id="edit-task-discard" value="Discard">
+            </div>
+    </dialog>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
