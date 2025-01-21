@@ -35,7 +35,6 @@ input[type="button"] {
     background: linear-gradient(to bottom right, white 0%, rgb(220, 219, 219) 50%, rgb(179, 179, 179) 100%);
     color: black;
     border-radius: 10px;
-
 }
 input[type="checkbox"] { 
     transform: scale(2);
@@ -68,6 +67,20 @@ svg {
     width: 30%;
     color: black;
 }
-bgColor { 
+.bgColor { 
     font-size: 4rem;
 }
+button.hover { 
+    background-color: red;
+    border: none;
+    width: 100%;
+}
+button.hover:hover { 
+    background-color: salmon;
+}
+input[type="button"]:hover { 
+    color: salmon;
+}
+/* button.deletable { 
+    display:block;
+} */

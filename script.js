@@ -1,3 +1,6 @@
+//random text here
+//more text after adding to the repo
+
 //DOM initialization
 const addTask = document.getElementById("add-task");
 const tasks = document.getElementById("tasks");
@@ -112,6 +115,7 @@ function renderTasks(list) {
     for (const {id, date, name, description} of list) {
         tasks.innerHTML += `
         <div id="${id}" class="deletable">
+        <button class="hover" type="button">
             <input type="checkbox"><label class="task-text">${name}</label>
             <a class="edit">
                 <svg style="color: rgb(243, 185, 57);" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"> 
@@ -128,6 +132,7 @@ function renderTasks(list) {
             <div>Description: ${description}</div>
             
             <hr>
+        </button>
         </div>
         `;
     }
@@ -256,11 +261,11 @@ updateHovers();
 function updateHovers() { 
     const hovers = document.querySelectorAll('div[class="deletable"]');
     for (let i in hovers) { 
-        hovers[i].addEventListener('mouseover', function(e) { 
+        hovers[i].addEventListener('hover', function(e) { 
             console.log(e.target.id);
             e.target.style.backgroundColor = "pink";
         })
-        hovers[i].addEventListener('mouseout', function(e) { 
+        hovers[i].addEventListener('hover', function(e) { 
             console.log(e.target.id);
             e.target.style.backgroundColor = "none";
         })
