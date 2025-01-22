@@ -1,5 +1,5 @@
-//random text here
-//more text after adding to the repo
+//comment made on 1/21/2025 2:05 pm
+//comment made on 1/21/2025 2:08 pm
 
 //DOM initialization
 const addTask = document.getElementById("add-task");
@@ -24,11 +24,9 @@ const taskDesc = document.getElementById("task-desc");
 
 //storage for sort algorithms and localStorage
 let taskList = [];
-let deletedTaskList = [];
 let tempTask = {};
-let completedTaskList = [];
 
-//onload of DOM 
+//localStorage getItems
 window.onload = () => {
     for (let n = 0; n < localStorage.length; n++) { 
         taskList.push(JSON.parse(localStorage.getItem(n)));
@@ -52,7 +50,7 @@ closeTask.addEventListener('click', function() {
     newTaskWindow.close();
 })
 
-function unpacking() { 
+function loadVals() { 
     if (tempTask["name"]) { 
         taskName.value = tempTask["name"];
     } 
@@ -79,8 +77,10 @@ createTask.addEventListener('click', () => {
 
 //transfer an array across a different object, removing its original copy
 tasks.addEventListener("change", (e) => { 
-    completedTaskList.push(...taskList.filter((a) => e.target.parentElement.id == `${a.id}`));
-    const taskIndex = taskList.findIndex(task => task.id == e.target.parentElement.id);
+    // completedTaskList.push(taskList.filter((a) => e.target.parentElement.id == `${a.id}`));
+    console.log("id", e.target.parentElement.id);
+    const taskIndex = taskList.findIndex((task) => task.id == e.target.parentElement.id);
+    console.log("taskIndex: ", taskIndex);
     taskList.splice(taskIndex, 1);
     renderTasks(taskList);
 });
@@ -114,8 +114,8 @@ function renderTasks(list) {
     tasks.innerHTML = "";
     for (const {id, date, name, description} of list) {
         tasks.innerHTML += `
-        <div id="${id}" class="deletable">
-        <button class="hover" type="button">
+        <li class="deletable">
+        <button class="hover" type="button" id="${id}">
             <input type="checkbox"><label class="task-text">${name}</label>
             <a class="edit">
                 <svg style="color: rgb(243, 185, 57);" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"> 
@@ -130,14 +130,13 @@ function renderTasks(list) {
             </a>
             <div>Date: ${date}</div>
             <div>Description: ${description}</div>
-            
             <hr>
         </button>
-        </div>
+        </li>
         `;
     }
     deleteOrEditSelector();
-    updateHovers();
+    // updateHovers();
     localStorage.clear();
     for (const task in list) { 
         localStorage.setItem(task, JSON.stringify(list[task]));
@@ -188,20 +187,20 @@ function sortOldest() {
     renderTasks(taskList);
 }
 //displays completed tasks
-function sortCompleted() { 
-    renderTasks(completedTaskList);
-}
+// function sortCompleted() { 
+//     renderTasks(completedTaskList);
+// }
 //displays deleted tasks
-function sortDeleted() { 
-    renderTasks(deletedTaskList);
-};
+// function sortDeleted() { 
+//     renderTasks(deletedTaskList);
+// };
 
 function deleteOrEditSelector() { 
     const deletes = document.querySelectorAll(`a[class="delete"]`);
     for (let i of deletes) { 
         i.addEventListener("click", function() { 
             let index = taskList.findIndex((a) => a.id == i.parentElement.id);
-            deletedTaskList.push(taskList[index]);
+            // deletedTaskList.push(taskList[index]);
             taskList.splice(index, 1);
             renderTasks(taskList);
         })
@@ -218,7 +217,7 @@ function deleteOrEditSelector() {
             editTaskDone.addEventListener("click", function() {
                 taskList[index] = {id: `task-${taskNumber}-${editTaskDate.value}`, date: editTaskDate.value, name: editTaskName.value, description: editTaskDesc.value};
                 renderTasks(taskList);
-                clearEditor();
+                // clearEditor();
                 taskEdit.close();
             });
             editTaskDiscard.addEventListener("click", function() { 
@@ -257,17 +256,17 @@ theme.addEventListener("change", function(e) {
     }
 })
 //learning how to GIT
-updateHovers();
-function updateHovers() { 
-    const hovers = document.querySelectorAll('div[class="deletable"]');
-    for (let i in hovers) { 
-        hovers[i].addEventListener('hover', function(e) { 
-            console.log(e.target.id);
-            e.target.style.backgroundColor = "pink";
-        })
-        hovers[i].addEventListener('hover', function(e) { 
-            console.log(e.target.id);
-            e.target.style.backgroundColor = "none";
-        })
-    }
-}
+// updateHovers();
+// function updateHovers() { 
+//     const hovers = document.querySelectorAll('div[class="deletable"]');
+//     for (let i in hovers) { 
+//         hovers[i].addEventListener('hover', function(e) { 
+//             console.log(e.target.id);
+//             e.target.style.backgroundColor = "pink";
+//         })
+//         hovers[i].addEventListener('hover', function(e) { 
+//             console.log(e.target.id);
+//             e.target.style.backgroundColor = "none";
+//         })
+//     }
+// }

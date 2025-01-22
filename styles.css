@@ -16,6 +16,9 @@
     font-size: 1.3rem;
     font-family: 'Poppins';
 }
+ul { 
+    list-style-type: none;
+}
 .container { 
     position: relative;
     top: 25%;
