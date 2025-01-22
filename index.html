@@ -16,38 +16,35 @@
         </select>
     </div>
     <div class="container">
-        <div>
-            <span class="header">to do list</span>
+        <div id="heading">
+            <div class="header">to do list</div>
+
+            <label for="task-sorting">Sort By: </label>
+            <select id="task-sorting">
+                <option value="sort-abc" id="sort-abc">Alphabetical (A-Z)</option>
+                <option value="sort-reverse-abc" id="sort-reverse-abc">Reverse Alphabetical (Z-A)</option>
+                <option value="sort-newest" id="sort-newest">Recent</option>
+                <option value="sort-oldest" id="sort-oldest">Oldest</option>
+            </select> 
+
+            <label for="add-task"></label>
+            <input type="button" id="add-task" value="Add Task">
         </div>
 
-        <label for="add-task"></label>
-        <input type="button" id="add-task" value="Add Task">
-            
-        <div>
-        <label for="task-sorting">Sort By: </label>
-        <select id="task-sorting">
-            <option value="sort-abc" id="sort-abc">Alphabetical (A-Z)</option>
-            <option value="sort-newest" id="sort-newest">Newest</option>
-            <option value="sort-oldest" id="sort-oldest">Oldest</option>
-            <option value="sort-reverse-abc" id="sort-reverse-abc">Reverse Alphabetical (Z-A)</option>
-            <!-- <option value="sort-completed" id="sort-completed">Completed</option>
-            <option value="sort-deleted" id="sort-deleted">Deleted</option> -->
-        </select> 
     <hr>
         <ul id="tasks"></ul>
         </div>
     <dialog id="create-new-task">
-        <div>
-            <input type="button" id="create-task" value="Create New Task">
-            <input type="button" id="discard-task" value="Discard as Draft">
-            <input type="button" id="close-task" value="Close">
-        </div>
         <label for="task-name">Task: </label>
         <input type="text" id="task-name" placeholder="Run 10k">
         <label for="task-date"></label>
         <input type="date" id="task-date">
         <label for="task-desc">Task Description: </label>
         <textarea id="task-desc" placeholder='Run an average pace of 8:00 min/mi, high-five friends on the way to the finish line'></textarea> 
+        <div>
+            <input type="button" id="create-task" value="Create New Task">
+            <input type="button" id="close-task" value="Close">
+        </div>
     </dialog>
     <dialog id="edit-task">
         <label for="edit-task-name">Task: </label>

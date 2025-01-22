@@ -1,5 +1,8 @@
-//comment made on 1/21/2025 2:05 pm
-//comment made on 1/21/2025 2:08 pm
+
+//bug 2: editing a task desc and clicking done produces a new undefined task and modifies the original to undefined
+    //cause: 2 eventListeners: one global and one nested within the edit eventListener
+    //fix: how can I write one eventListener?
+//bug 3: editing a task and clicking done creates a new copy of the same task
 
 //DOM initialization
 const addTask = document.getElementById("add-task");
@@ -7,6 +10,7 @@ const tasks = document.getElementById("tasks");
 const taskSort = document.getElementById("task-sorting");
 const taskEdit = document.getElementById("edit-task");
 const theme = document.getElementById("theme");
+const heading = document.getElementById("heading");
 
 const editTaskName = document.getElementById('edit-task-name');
 const editTaskDate = document.getElementById('edit-task-date');
@@ -14,9 +18,10 @@ const editTaskDesc = document.getElementById('edit-task-desc');
 const editTaskDone = document.getElementById('edit-task-done');
 const editTaskDiscard = document.getElementById('edit-task-discard');
 
-const newTaskWindow = document.getElementById("create-new-task");
+const openTaskWindow = document.getElementById("create-new-task");
 const createTask = document.getElementById("create-task");
-const discardTask = document.getElementById("discard-task");
+
+// const discardTask = document.getElementById("discard-task");
 const closeTask = document.getElementById("close-task");
 const taskName = document.getElementById("task-name");
 const taskDate = document.getElementById("task-date");
@@ -25,9 +30,12 @@ const taskDesc = document.getElementById("task-desc");
 //storage for sort algorithms and localStorage
 let taskList = [];
 let tempTask = {};
+let currentTaskIndex;
+let currentTaskNumber;
 
 //localStorage getItems
 window.onload = () => {
+    heading.classList.add("load-header");
     for (let n = 0; n < localStorage.length; n++) { 
         taskList.push(JSON.parse(localStorage.getItem(n)));
     }
@@ -36,18 +44,18 @@ window.onload = () => {
 
 //displays modal add task window
 addTask.addEventListener('click', function() {
-    newTaskWindow.showModal()
-    unpacking();
+    openTaskWindow.showModal()
+    // unpacking();
 });
 
-discardTask.addEventListener('click', function() { 
-    tempTask = {id: `task-${taskList.length}-${taskDate.value}`, date: taskDate.value, name: taskName.value, description: taskDesc.value};
-    newTaskWindow.close();
-})
+// discardTask.addEventListener('click', function() { 
+//     tempTask = {id: `task-${taskList.length}-${taskDate.value}`, date: taskDate.value, name: taskName.value, description: taskDesc.value};
+//     openTaskWindow.close();
+// })
 
 closeTask.addEventListener('click', function() { 
     tempTask = {};
-    newTaskWindow.close();
+    openTaskWindow.close();
 })
 
 function loadVals() { 
@@ -61,28 +69,35 @@ function loadVals() {
         taskDesc.value = tempTask["description"];
     }
 }
+
 //does custom DOM elem creation && info storage in array 
-createTask.addEventListener('click', () => {
-    if (taskName.value !== "" && taskDate.value !== "") { 
-        const newTask = {id: `task-${taskList.length}-${taskDate.value}`, date: taskDate.value, name: taskName.value, description: taskDesc.value};
-        taskList.unshift(newTask);
-        clearEditor();
-        renderTasks(taskList);
-        tempTask = {};
-        newTaskWindow.close();
-    } else { 
-        alert('You must write out a task and its due date before displaying it');
-    }
-})
+function updateTask() {
+    createTask.addEventListener('click', () => {
+        if (taskName.value !== "" && taskDate.value !== "") { 
+            if (currentTaskNumber && currentTaskIndex) { 
+                taskList[currentTaskIndex] = {id: `task-${currentTaskNumber}-${taskDate.value}`, date: taskDate.value, name: taskName.value, description: taskDesc.value};
+            } else { 
+                taskList.unshift({id: `task-${taskList.length}-${taskDate.value}`, date: taskDate.value, name: taskName.value, description: taskDesc.value});
+            }
+            clearEditor();
+            renderTasks(taskList);
+            tempTask = {};
+            openTaskWindow.close();
+        } else { 
+            alert('You must write out a task and its due date before displaying it');
+        }
+    })
+}
+updateTask();
 
 //transfer an array across a different object, removing its original copy
 tasks.addEventListener("change", (e) => { 
+    e.target.parentElement.parentElement.classList.add("complete-animation");
     // completedTaskList.push(taskList.filter((a) => e.target.parentElement.id == `${a.id}`));
-    console.log("id", e.target.parentElement.id);
     const taskIndex = taskList.findIndex((task) => task.id == e.target.parentElement.id);
-    console.log("taskIndex: ", taskIndex);
     taskList.splice(taskIndex, 1);
     renderTasks(taskList);
+    //window.setTimeout(function() {renderTasks(taskList)}, 350);
 });
 
 //reads the event from the dropdown to call a sorting algorithm
@@ -114,7 +129,7 @@ function renderTasks(list) {
     tasks.innerHTML = "";
     for (const {id, date, name, description} of list) {
         tasks.innerHTML += `
-        <li class="deletable">
+        <li class="deletable load-animation-tasks">
         <button class="hover" type="button" id="${id}">
             <input type="checkbox"><label class="task-text">${name}</label>
             <a class="edit">
@@ -195,7 +210,7 @@ function sortOldest() {
 //     renderTasks(deletedTaskList);
 // };
 
-function deleteOrEditSelector() { 
+function deleteOrEditSelector() {
     const deletes = document.querySelectorAll(`a[class="delete"]`);
     for (let i of deletes) { 
         i.addEventListener("click", function() { 
@@ -208,20 +223,29 @@ function deleteOrEditSelector() {
     const edits = document.querySelectorAll(`a[class="edit"]`);
     for (let g of edits) { 
         g.addEventListener("click", function() { 
-            taskEdit.showModal();
-            let index = taskList.findIndex((a) => a.id == g.parentElement.id);
-            let taskNumber = g.parentElement.id.split("-")[1];
-            editTaskName.value = `${taskList[index]["name"]}`;
-            editTaskDate.value = `${taskList[index]["date"]}`;
-            editTaskDesc.value = `${taskList[index]["description"]}`;
-            editTaskDone.addEventListener("click", function() {
-                taskList[index] = {id: `task-${taskNumber}-${editTaskDate.value}`, date: editTaskDate.value, name: editTaskName.value, description: editTaskDesc.value};
-                renderTasks(taskList);
+            createTask.value = "Done";
+            openTaskWindow.showModal();
+            currentTaskIndex = taskList.findIndex((a) => a.id == g.parentElement.id);
+            let currentTaskNumber = g.parentElement.id.split("-")[1];
+            taskName.value = `${taskList[currentTaskIndex]["name"]}`;
+            taskDate.value = `${taskList[currentTaskIndex]["date"]}`;
+            taskDesc.value = `${taskList[currentTaskIndex]["description"]}`;
+            //function call to updateTask() binding
+            createTask.addEventListener("click", function() {
+                updateTask();
+                // taskList[index] = {id: `task-${currentTaskNumber}-${taskDate.value}`, date: taskDate.value, name: taskName.value, description: taskDesc.value};
+                // renderTasks(taskList);
                 // clearEditor();
-                taskEdit.close();
+                openTaskWindow.close();
+                createTask.value = "Create New Task";
+                currentTaskIndex = null;
+                currentTaskNumber = null;
             });
-            editTaskDiscard.addEventListener("click", function() { 
-                taskEdit.close();
+            closeTask.addEventListener("click", function() { 
+                openTaskWindow.close();
+                createTask.value = "Create New Task";
+                currentTaskIndex = null;
+                currentTaskNumber = null;
             })
         })
     }
