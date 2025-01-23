@@ -80,9 +80,13 @@ button.hover {
     width: 100%;
 }
 .complete-animation { 
-    text-decoration-line: line-through;
-    animation: fade 0.2s ease-in-out;
+    animation: fade 2s ease-in-out;
     animation-fill-mode: forwards;
+}
+@keyframes fade { 
+    0% {opacity: 100%}
+    20% {opacity: 90%; text-decoration-line: line-through;}
+    100% {opacity: 0%; text-decoration-line: line-through;}
 }
 .load-animation-tasks { 
     animation: popup 0.35s ease-in-out;
@@ -92,10 +96,7 @@ button.hover {
     animation: popup 0.15s ease-in-out;
     animation-fill-mode: forwards;
 }
-@keyframes fade { 
-    from {opacity: 100%}
-    to {opacity: 0%}
-}
+
 @keyframes popup { 
     0% {opacity: 0%;}
     50% {opacity: 70%;}
