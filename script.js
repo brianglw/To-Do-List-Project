@@ -11,15 +11,13 @@ const taskName = document.getElementById("task-name");
 const taskDate = document.getElementById("task-date");
 const taskDesc = document.getElementById("task-desc");
 var taskList = [], currentTaskIndex, currentTaskNumber;
-
+const screenWidth = window.screen.width, screenHeight = window.screen.height;
 //loads taskList with localStorage items & renders them in the <div>
 window.onload = () => {
     heading.classList.add("load-header");
     loadTasks();
-    //else clause here, remove unnecessary conditional statement at renderTasks()?
     renderTasks();
 }
-
 //displays modal add task window
 addTask.addEventListener('click', function() {
     addOrEditTask.showModal()
@@ -50,25 +48,18 @@ createTask.addEventListener('click', () => {
 taskSort.addEventListener("change", (event) => { 
     switch (event.target.value) { 
         case "sort-abc": 
-            sortABC();
-            break;
+            sortABC(); break;
         case "sort-newest":
-            sortNewest();
-            break;
+            sortNewest(); break;
         case "sort-oldest":
-            sortOldest();
-            break;
+            sortOldest(); break;
         case "sort-reverse-abc":
-            sortABCReverse();
-            break;
+            sortABCReverse(); break;
         case "sort-completed":
-            sortCompleted();
-            break;
+            sortCompleted(); break;
         case "sort-deleted":
-            sortDeleted();
-            break;
-    }
-})
+            sortDeleted(); break;
+}})
 //transfer an array across a different object, removing its original copy
 tasks.addEventListener("change", (e) => { 
     e.target.parentElement.parentElement.classList.add("complete-animation");
@@ -108,7 +99,6 @@ const deleteSelector = () => {
 })}}
 const editSelector = () => { 
     const edits = document.querySelectorAll(`a[class="edit"]`);
-    // for (let g of edits) { 
         edits.forEach((icon) => 
         icon.addEventListener("click", function() { 
             createTask.value = "Done";
@@ -183,7 +173,9 @@ const saveTasks = () => {
 const loadTasks = () => { 
     for (let n = 0; n < localStorage.length; n++) { 
         taskList.push(JSON.parse(localStorage.getItem(String(n))));
-}}
+}
+    localStorage.clear();
+}
 
 //having ADHD and working with things in your short term memory feels like you're a visitor in a new country trying to constantly read a train route on a crowded subway station in Shinuku, Tokyo
 //re-editing your old code to make it functional feels like moonwalking in an art gallery while blindfolded
