@@ -179,7 +179,8 @@ const loadTasks = () => {
 //References: 
     //https://www.behance.net/gallery/29727367/Bubbles-(To-Do-List-Application)
         //I like the use of click+drag bubble nodes that show your to-dolist tasks, click to show more
-        //2. 
+
+//1.30.2025: tired, and worked a little of the user workflow without seeing the original
 
 //having ADHD and working with things in your short term memory feels like you're a visitor in a new country trying to constantly read a train route on a crowded subway station in Shinuku, Tokyo
 //re-editing your old code to make it functional feels like moonwalking in an art gallery while blindfolded
